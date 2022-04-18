@@ -18,7 +18,7 @@ public class FileCounter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	int count;
-	private testClass dao;
+	private testClass test;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,7 +27,7 @@ public class FileCounter extends HttpServlet {
 		// every time the user press refresh
 		HttpSession session = request.getSession(true);
 		// Set the session valid for 5 secs
-		session.setMaxInactiveInterval(5);
+		session.setMaxInactiveInterval(1);
 		response.setContentType("text/plain");
 		PrintWriter out = response.getWriter();
 		if (session.isNew()) {
@@ -38,9 +38,9 @@ public class FileCounter extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		dao = new testClass();
+		test = new testClass();
 		try {
-			count = dao.getCount();
+			count = test.getCount();
 		} catch (Exception e) {
 			getServletContext().log("An exception occurred in FileCounter", e);
 			throw new ServletException("An exception occurred in FileCounter" + e.getMessage());
@@ -50,7 +50,7 @@ public class FileCounter extends HttpServlet {
 	public void destroy() {
 		super.destroy();
 		try {
-			dao.save(count);
+			test.save(count);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
