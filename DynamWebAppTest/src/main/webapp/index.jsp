@@ -17,12 +17,12 @@
 			<tbody>							
 				<tr>
 					<td>
-						<textarea id="in" name="in" rows="4" cols="50"></textarea>
+						<textarea id="in" name="in" rows="50" cols="50"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<textarea id="out" rows="4" cols="50"></textarea>
+						<textarea id="out" rows="50" cols="50"></textarea>
 					</td>
 				</tr>
 			</tbody>	
@@ -33,10 +33,23 @@
 	</form>
 	<%
 	String myText = request.getParameter("in");
+
+	%>			
+	<script>
+	var bar = `<%=myText%>`;
+		document.getElementById("in").innerHTML = bar;
+	</script>
+	<%
 	
 	if (myText == null) {
 		// myText is null when the page is first requested, 
 		// so do nothing
+		%>			
+		<script>
+		var bar = `<%=""%>`;
+			document.getElementById("in").innerHTML = bar;
+		</script>
+		<%
 	} else { 
 		if (myText.length() == 0) {
 		// There was a querystring like ?myText=
@@ -47,19 +60,7 @@
 	<% } else { 
 	String[] rowWords = myText.split("\n");
 	for(int i = 0; i < rowWords.length; i++){
-		String str = rowWords[i];
-		if(str.charAt(0) == ' '){
-			str = str.substring(1);
-		}
-		if(str.charAt(str.length()-1) == ' '){
-			str = str.substring(0, str.length() - 1);
-		}
-		
-		rowWords[i] = str;
-		for(int j = 0 ; j < rowWords[i].length(); j++){
-			if(rowWords[i].charAt(j) != '\n')
-				System.out.print("|"+rowWords[i].charAt(j)+"|");
-		}
+		rowWords[i] = rowWords[i].replace("\n", "").replace("\r", "");
 		//System.out.print(rowWords[i]);
 	}
 	
@@ -79,31 +80,37 @@
 	}
 	//System.out.println();
 	
-	/*MastControl controller = new MastControl(local);
+	MastControl controller = new MastControl(local);
 	//System.out.println("ref Length: " + controller.reference.lineCount());
 	int f = 0, g = 0, h = 0;
+	String t2 = "";
 	while (true) {
 		if (controller.reference.getChar(f, g, h) == 0) {
 			h = 0;
 			g++;
 			System.out.print(" ");
-			// t2.append(" ");
-
+			 t2 =t2+ " ";
 		}
 		if (controller.reference.getChar(f, g, h) == 0) {
 			g = 0;
 			f++;
 			System.out.print("\n");
-			// t2.append("\n");
+			 t2 = t2 + "\n";
 		}
 		if (controller.reference.getChar(f, g, h) == 0) {
+			%>			
+			<script>
+			var foo = `<%=t2%>`;
+				document.getElementById("out").innerHTML = foo;
+			</script>
+			<%
 			break;
 		}
 		System.out.print(controller.reference.getChar(f, g, h));
-		// t2.append(ls.getChar(f, g, h) + "");
+		
+		t2 =t2+ controller.reference.getChar(f, g, h);
 		h++;
-	}*/
-	
+	}
 		}
 	}
 	%>
