@@ -13,6 +13,10 @@ public class LineStorage implements ILineSet {
 		lines = new ArrayList();
 	}
 
+	public void clear() {
+		lines.clear();
+	}
+
 	/**
 	 * OVERVIEW: Sets the j'th character in the i'th word to the specified char
 	 * value
