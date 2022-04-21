@@ -25,10 +25,16 @@
 			<h1>Admin Box</h1>	
 			<textarea id="admin" name="admin" rows="10" cols="70"></textarea>
 		</div>		
-		<input type="reset" value="Clear" name="clear"/>
+		<input type="button" value="Clear" name="clear" onclick="reload()"/>
 		<input type="submit" value="Submit" name="submit"/>
 		<!-- <input type="button" value="Submit" onclick="submit()"/> -->
 	</form>
+	<script>
+	function reload(){
+		window.location = window.location.href.split("?")[0];
+		
+	}
+	</script>
 	<%
 	String myText = request.getParameter("in");
 	String adminText = request.getParameter("admin");
@@ -90,7 +96,7 @@ Big Beefy boi with lots and lots of words https//www.gobigbeef.org
 			
 		}	
 	
-	myText = myText.replaceAll(" ", "");
+	
 	MastControl controller = new MastControl(local,myText);	
 	
 	
@@ -99,7 +105,7 @@ Big Beefy boi with lots and lots of words https//www.gobigbeef.org
 	String t2="";
 	
 	for(int i : controller.purged){
-		controller.displayLine(local, i);
+		t2+=controller.displayLine(local, i)+"\n";
 	}
 	%>			
 	<script>

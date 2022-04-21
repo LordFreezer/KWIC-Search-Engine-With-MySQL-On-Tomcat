@@ -26,11 +26,15 @@ public class MastControl {
 
 	public MastControl(ILineSet ls, String keyWord) {
 		// Original
+
 		CircularShifter cs = new CircularShifter(ls);
 		Alphabetizer az = new Alphabetizer(cs);
 		reference = az;
 		Display(az);
-		url = DisplayKeyword(az, keyWord);
+		MicroMiner m = new MicroMiner(az);
+		purged = m.Search(keyWord);
+
+		// url = DisplayKeyword(az, keyWord);
 		// Display(reference);
 		// Order Swap
 		// Alphabetizer az = new Alphabetizer(window.local);
@@ -157,20 +161,25 @@ public class MastControl {
 		}
 	}
 
-	public static void displayLine(LineStorage ls, int i) {
+	public String displayLine(LineStorage ls, int i) {
 		int g = 0, h = 0;
+		String result = "";
 		while (true) {
 			if (ls.getChar(i, g, h) == 0) {
 				h = 0;
 				g++;
-				System.out.print(' ');
+				// System.out.print(' ');
+				result += ' ';
 			}
 			if (ls.getChar(i, g, h) == 0) {
 				break;
 			}
-			System.out.print(ls.getChar(i, g, h));
+			// System.out.print(ls.getChar(i, g, h));
+			result += ls.getChar(i, g, h);
 			h++;
 		}
-		System.out.println(" =>  " + ls.getUrl(i));
+		// System.out.println(" => " + ls.getUrl(i));
+		result += "     " + ls.getUrl(i);
+		return result;
 	}
 }
