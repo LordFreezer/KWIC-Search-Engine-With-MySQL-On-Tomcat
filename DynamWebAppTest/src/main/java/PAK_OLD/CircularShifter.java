@@ -1,4 +1,4 @@
-package PAK;
+package PAK_OLD;
 
 import java.util.ArrayList;
 
@@ -66,7 +66,7 @@ public class CircularShifter implements ILineSet {
 	 * list
 	 * 
 	 * @param i The index of the line to search for
-	 * @param j The index of the word to search for within that line
+	 * @param j The index of the line to search for within that set
 	 * @param k The index of the character to search for within that word
 	 * @return The char value at that index
 	 */
@@ -132,26 +132,11 @@ public class CircularShifter implements ILineSet {
 		}
 	}
 
-	/**
-	 * OVERVIEW: Returns the url string of the line at the specified index
-	 * 
-	 * @param i The index of the line to search for
-	 * @return The url string of the line at that index
-	 */
 	@Override
 	public String getUrl(int i) {
 		return reference.getUrl(lines.get(i));
 	}
 
-	/**
-	 * OVERVIEW: Returns the k'th character of the j'th word of the i'th line in the
-	 * reference's original line set, ignoring circular shifts
-	 * 
-	 * @param i The index of the line to search for
-	 * @param j The index of the word to search for within that line
-	 * @param k The index of the character to search for within that word
-	 * @return The char value at that index
-	 */
 	public char getParentChar(int i, int j, int k) {
 		if (i >= lines.size() || i < 0)
 			return 0;
@@ -160,20 +145,6 @@ public class CircularShifter implements ILineSet {
 		else {
 			return reference.getChar(lines.get(i), j, k);
 		}
-	}
-
-	/**
-	 * OVERVIEW: returns the original index of the line at the specified index,
-	 * ignoring circular shifts.
-	 * 
-	 * @param i the index of the line to search for
-	 * @return The index of the "parent line"
-	 */
-	public int getParentIndex(int i) {
-		if (i >= lines.size() || i < 0)
-			return 0;
-		else
-			return lines.get(i);
 	}
 
 }

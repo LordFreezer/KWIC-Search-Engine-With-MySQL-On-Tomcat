@@ -1,4 +1,4 @@
-package PAK;
+package PAK_OLD;
 
 import java.util.ArrayList;
 
@@ -58,17 +58,6 @@ public class LineStorage implements ILineSet {
 	 */
 	public void addLine(String url) {
 		lines.add(new Line(url));
-	}
-
-	public void addLine(LineStorage ls, String st, String url) {
-		ls.addLine(url);
-		ls.addWord();
-		for (int g = 0; g < st.length(); g++) {
-			if (st.charAt(g) == ' ')
-				ls.addWord();
-			else
-				ls.addChar(st.charAt(g));
-		}
 	}
 
 	/**

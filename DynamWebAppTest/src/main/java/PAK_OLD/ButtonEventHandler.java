@@ -1,11 +1,11 @@
-package PAK;
+package PAK_OLD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import PAK.Input.Actions;
+import PAK_OLD.Input.Actions;
 
 public class ButtonEventHandler implements ActionListener {
 	private Input window;

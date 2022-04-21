@@ -11,33 +11,34 @@
 
 </head>
 <body>
-<h1> Form Demo</h1>
-	<form action="index.jsp">
-		<table border="1">
-			<tbody>							
-				<tr>
-					<td>
-						<textarea id="in" name="in" rows="50" cols="50"></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<textarea id="out" rows="50" cols="50"></textarea>
-					</td>
-				</tr>
-			</tbody>	
-		</table>
+<h1> KWIC+ Search System</h1>
+	<form action="index.jsp" method="get">
+		<div>
+			<h1>What would you like to search for?</h1>				
+			<textarea id="in" name="in" rows="10" cols="50"></textarea>
+		</div>
+		<div>
+			<h1>Search Results</h1>	
+			<textarea id="out" rows="10" cols="70" readonly></textarea>
+		</div>	
+		<div>
+			<h1>Admin Box</h1>	
+			<textarea id="admin" name="admin" rows="10" cols="70"></textarea>
+		</div>		
 		<input type="reset" value="Clear" name="clear"/>
 		<input type="submit" value="Submit" name="submit"/>
 		<!-- <input type="button" value="Submit" onclick="submit()"/> -->
 	</form>
 	<%
 	String myText = request.getParameter("in");
+	String adminText = request.getParameter("admin");
 
 	%>			
 	<script>
 	var bar = `<%=myText%>`;
 		document.getElementById("in").innerHTML = bar;
+	var tag = `<%=adminText%>`;
+		document.getElementById("admin").innerHTML = tag;
 	</script>
 	<%
 	
@@ -48,6 +49,8 @@
 		<script>
 		var bar = `<%=""%>`;
 			document.getElementById("in").innerHTML = bar;
+		var tag = `<%=""%>`;
+			document.getElementById("admin").innerHTML = tag;
 		</script>
 		<%
 	} else { 
@@ -56,61 +59,54 @@
 		// but no text, so myText is not null, but 
 		// a zero length string instead.
 	%>
-	<b>myText is empty</b>
+	<b>Something Went Wrong Somewhere</b>
 	<% } else { 
-	String[] rowWords = myText.split("\n");
-	for(int i = 0; i < rowWords.length; i++){
-		rowWords[i] = rowWords[i].replace("\n", "").replace("\r", "");
-		//System.out.print(rowWords[i]);
-	}
-	
-	LineStorage local = new LineStorage();
-	for (int i = 0; i < rowWords.length; i++) {
-		String[] colWords = rowWords[i].split(" ");
-		local.addLine();
-		for (int j = 0; j < colWords.length; j++) {
-			local.addWord();
-			for (int h = 0; h < colWords[j].length(); h++) {
-				local.addChar(colWords[j].charAt(h));
-				// System.out.print(colWords[j].charAt(h));
-			}
-			 //System.out.print(' ');
-		}
-		// System.out.print('\n');
-	}
-	//System.out.println();
-	
-	MastControl controller = new MastControl(local);
-	//System.out.println("ref Length: " + controller.reference.lineCount());
-	int f = 0, g = 0, h = 0;
-	String t2 = "";
-	while (true) {
-		if (controller.reference.getChar(f, g, h) == 0) {
-			h = 0;
-			g++;
-			System.out.print(" ");
-			 t2 =t2+ " ";
-		}
-		if (controller.reference.getChar(f, g, h) == 0) {
-			g = 0;
-			f++;
-			System.out.print("\n");
-			 t2 = t2 + "\n";
-		}
-		if (controller.reference.getChar(f, g, h) == 0) {
-			%>			
-			<script>
-			var foo = `<%=t2%>`;
-				document.getElementById("out").innerHTML = foo;
-			</script>
-			<%
-			break;
-		}
-		System.out.print(controller.reference.getChar(f, g, h));
+						
+		LineStorage local = new LineStorage();
 		
-		t2 =t2+ controller.reference.getChar(f, g, h);
-		h++;
+		/*
+Hello World https//www.hello.world
+This is a test https//www.test.org
+Shared Data Design https//www.sharedata.design
+Another line https//www.one.more
+Big Beefy boi with lots and lots of words https//www.gobigbeef.org
+		*/
+		
+		String [] entireLine = adminText.split("\n");		
+		for(int i = 0; i < entireLine.length; i++){
+			int pos = entireLine[i].indexOf("http");
+			
+			String first = entireLine[i].substring(0, pos);		
+			first = first.replaceAll("\\s+$", "").replaceAll("\n", "").replaceAll("\r", "");
+			
+			String second = entireLine[i].substring(pos);		
+			second = second.replaceAll("\n", "").replaceAll("\r", "");
+			
+			//System.out.println("|"+first+"|");
+			//System.out.println("|"+second+"|");
+			
+			local.addLine(local, first, second);
+			
+			
+		}	
+	
+	myText = myText.replaceAll(" ", "");
+	MastControl controller = new MastControl(local,myText);	
+	
+	
+	
+	
+	String t2="";
+	
+	for(int i : controller.purged){
+		controller.displayLine(local, i);
 	}
+	%>			
+	<script>
+	var foo = `<%=t2%>`;
+		document.getElementById("out").innerHTML = foo;
+	</script>
+	<%
 		}
 	}
 	%>
