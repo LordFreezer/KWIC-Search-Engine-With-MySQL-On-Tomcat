@@ -8,15 +8,13 @@ import java.util.ArrayList;
 
 /**
  *
- * @author eeeee
+ * @author Stephen Key
  */
 public class MicroMiner {
 	private Alphabetizer reference;
-	// public static ArrayList<String> result;
 
 	public MicroMiner(Alphabetizer az) {
 		reference = az;
-		// result = new ArrayList<String>();
 
 	}
 

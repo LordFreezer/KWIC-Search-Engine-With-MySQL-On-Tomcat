@@ -5,6 +5,7 @@
 <%@ page import="PAK.*" %>
 <!DOCTYPE html>
 <html>
+<!-- Author: Chad Marshall -->
 <head>
 <meta charset="ISO-8859-1">
 <title>Form Test</title>
@@ -21,121 +22,85 @@
 		<div>
 			<h1>Search Results</h1>	
 			<textarea id="out" rows="10" cols="70" readonly></textarea>
-		</div>	
-		<!-- <div>
-			<h1>Admin Box</h1>	
-			<textarea id="admin" name="admin" rows="10" cols="70"></textarea>
-		</div>	 -->	
+		</div>		
 		<input type="button" value="Clear" name="clear" onclick="reload()"/>
 		<input type="submit" value="Submit" name="submit"/>
 		<p>Always press "Clear" before performing a new search!</p>
-		<!-- <input type="button" value="Submit" onclick="submit()"/> -->
+		
 	</form>
 	<script>
 	function reload(){
+		// Reloads page and clears parameters
 		window.location = window.location.href.split("?")[0];
 		
 	}
 	</script>
 	<%
-	String myText = request.getParameter("in");
-	//String adminText = request.getParameter("admin");
+	// Retrieves parameters in Java from same page on submit action
+	String keyword = request.getParameter("in");
+	
 
 	%>			
 	<script>
-	var bar = `<%=myText%>`;
+	// Interpolates the Java keyword string into something that JavaScript can understand
+	// and populates the keyword box with keyword
+	var bar = `<%=keyword%>`;
 		document.getElementById("in").innerHTML = bar;
-
 	</script>
-	<%
-	
-	if (myText == null) {
-		// myText is null when the page is first requested, 
-		// so do nothing
+	<%	
+	if (keyword == null) {		
+		// Do nothing
 		%>			
 		<script>
+		// Clears keyword box
 		var bar = `<%=""%>`;
-			document.getElementById("in").innerHTML = bar;
-		
+			document.getElementById("in").innerHTML = bar;		
 		</script>
 		<%
 	} else { 
-		if (myText.length() == 0) {
-		// There was a querystring like ?myText=
-		// but no text, so myText is not null, but 
-		// a zero length string instead.
+		if (keyword.length() == 0) {
 	%>
 	<b>Something Went Wrong Somewhere</b>
-	<% } else { 
+	<%
+	} else { 
+			// Creates storage for descriptions
+			LineStorage local = new LineStorage();
+			// Establishes a connection to db
+			UpdateDao uDao = new UpdateDao();
+			// Retrieves the description and url pairs
+			uDao.get();
+			for(int i  = 0; i < uDao.lines.size(); i++){
+		local.addLine(local, 
+				uDao.lines.get(i).getDesc(),
+				uDao.lines.get(i).getUrl() );
+			}
+			
+		// shifts and alphabetizes the descriptions
+		MastControl controller = new MastControl(local,keyword);	
 		
-		LineStorage local = new LineStorage();
+		String t2="";
 		
-		/*
-TEST DATA		
-		
-Hello World https//www.hello.world
-This is a test https//www.test.org
-Shared Data Design https//www.sharedata.design
-Another line https//www.one.more
-Big Beefy boi with lots and lots of words https//www.gobigbeef.org
-		*/
-		
-		/*
-		String [] entireLine = adminText.split("\n");		
-		for(int i = 0; i < entireLine.length; i++){
-			int pos = entireLine[i].indexOf("http");
-			
-			String first = entireLine[i].substring(0, pos);		
-			first = first.replaceAll("\\s+$", "").replaceAll("\n", "").replaceAll("\r", "");
-			
-			String second = entireLine[i].substring(pos);		
-			second = second.replaceAll("\n", "").replaceAll("\r", "");
-			
-			//System.out.println("|"+first+"|");
-			//System.out.println("|"+second+"|");
-			
-			local.addLine(local, first, second);
-			
-			
-		}	*/
-		UpdateDao uDao = new UpdateDao();
-		uDao.get();
-		for(int i  = 0; i < uDao.lines.size(); i++){
-			local.addLine(local, 
-					uDao.lines.get(i).getDesc(),
-					uDao.lines.get(i).getUrl() );
+		// At this point, the indices for what results are retrieved.
+		// Text for output box is built.
+		for(int i : controller.indices){
+			t2+=controller.displayLine(local, i)+"\n";
 		}
-				
-	
-	
-	MastControl controller = new MastControl(local,myText);	
-	
-	//System.out.println("LOCAL LINE COUNT: "+local.lineCount());
-	
-	
-	
-	
-	
-	
-	
-	String t2="";
-	
-	for(int i : controller.purged){
-		t2+=controller.displayLine(local, i)+"\n";
-	}
-	if(controller.purged.size() == 0){
-		t2 = "No results found";
-	}
-	local.clear();
-	controller.purged.clear();
-	uDao.lines.clear();
+		
+		// Exception handling for invalid keyword
+		if(controller.indices.size() == 0){
+			t2 = "No results found";
+		}
+		// Purges everything
+		local.clear();
+		controller.indices.clear();
+		uDao.lines.clear();
 	%>			
 	<script>
+	// Output textbox is populated.
 	var foo = `<%=t2%>`;
 		document.getElementById("out").innerHTML = foo;
 	</script>
-	<%
-	
+	<%	
 		}
 	}
 	%>

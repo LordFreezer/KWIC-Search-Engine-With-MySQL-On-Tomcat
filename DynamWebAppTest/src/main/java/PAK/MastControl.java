@@ -3,43 +3,44 @@ package PAK;
 import java.util.ArrayList;
 
 /**
- * 
+ * @author Chad Marshall and Stephen Key
+ *
+ */
+
+/**
+ * OVERVIEW: This class manages and executes shifting, alphabetizing, and
+ * microminer operations.
  */
 public class MastControl {
-	public ILineSet reference;
-	public String url;
-	public static ArrayList<Integer> purged = new ArrayList<Integer>();
+	// ArrayList that keeps track of the indices of the original LineStorage object
+	public static ArrayList<Integer> indices = new ArrayList<Integer>();
 
 	/**
-	 * Default constructor
-	 */
-	/*
-	 * public MastControl(Input window) { // Original CircularShifter cs = new
-	 * CircularShifter(window.local); Alphabetizer az = new Alphabetizer(cs);
-	 * Display(az, window.t2);
+	 * OVERVIEW: Manages the operations that take place on the Tomcat server.
 	 * 
-	 * // Order Swap // Alphabetizer az = new Alphabetizer(window.local); //
-	 * CircularShifter cs = new CircularShifter(az); // Display(cs, window.t2); }
+	 * @param ls      - Set of descriptions that are retrieved from MySQL database
+	 * @param keyWord - The set of words that the user is querying the shifted
+	 *                descriptions for.
 	 */
-
 	public MastControl(ILineSet ls, String keyWord) {
 		// Original
 
+		// Circular shifts each description up to the number of words that is in the
+		// description.
 		CircularShifter cs = new CircularShifter(ls);
+		// Alphabetizes the set of shifted descriptions.
 		Alphabetizer az = new Alphabetizer(cs);
-		reference = az;
-		// Display(az);
+		// Traverses through the set of descriptions to find the lines that include
+		// the keywords
 		MicroMiner m = new MicroMiner(az);
-		purged = m.Search(keyWord);
+		// Keeps track of indices of found lines.
+		indices = m.Search(keyWord);
 
-		// url = DisplayKeyword(az, keyWord);
-		// Display(reference);
-		// Order Swap
-		// Alphabetizer az = new Alphabetizer(window.local);
-		// CircularShifter cs = new CircularShifter(az);
-		// Display(cs, window.t2);
 	}
 
+	/**
+	 * @param ls - Prints out LineStorage object for debugging purposes
+	 */
 	public static void Display(ILineSet ls) {
 		int f = 0, g = 0, h = 0;
 		while (true) {
@@ -47,24 +48,28 @@ public class MastControl {
 				h = 0;
 				g++;
 				System.out.print(" ");
-				// t2.append(" ");
-
 			}
 			if (ls.getChar(f, g, h) == 0) {
 				g = 0;
 				f++;
 				System.out.print("\n");
-				// t2.append("\n");
 			}
 			if (ls.getChar(f, g, h) == 0) {
 				break;
 			}
 			System.out.print(ls.getChar(f, g, h) + "");
-			// t2.append(ls.getChar(f, g, h) + "");
 			h++;
 		}
 	}
 
+	/**
+	 * OVERVIEW: Displays a single description and url pair. Used to populate the
+	 * output box.
+	 *
+	 * @param ls the line
+	 * @param i  the index
+	 * @return the description and url pair as a single string.
+	 */
 	public String displayLine(LineStorage ls, int i) {
 		int g = 0, h = 0;
 		String result = "";
@@ -72,17 +77,14 @@ public class MastControl {
 			if (ls.getChar(i, g, h) == 0) {
 				h = 0;
 				g++;
-				// System.out.print(' ');
 				result += ' ';
 			}
 			if (ls.getChar(i, g, h) == 0) {
 				break;
 			}
-			// System.out.print(ls.getChar(i, g, h));
 			result += ls.getChar(i, g, h);
 			h++;
 		}
-		// System.out.println(" => " + ls.getUrl(i));
 		result += "     " + ls.getUrl(i);
 		return result;
 	}
