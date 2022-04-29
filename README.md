@@ -14,21 +14,21 @@ In terms of how work was divided between teammates, it was mostly a matter of wh
 
 Use case diagram
 
-![](UNTITLED1)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled1.png)
 
 A system admin has permission to write to the system&#39;s data to add lines. An outside client may only search the current data set for certain keywords.
 
 Sequence Diagrams
 
-![](UNTITLED2)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled2.png)
 
-![](UNTITLED3)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled3.png)
 
 The system&#39;s use as a web service makes it portable, easily understandable, and user friendly.
 
 **Architecture Specification (Component Diagram):**
 
-![](UNTITLED4)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled4.png)
 
 The system&#39;s &quot;Circulate Input&quot; function uses the Shared Data Architectural style. The user interface takes in a String input and passes it to the Input component which stores the input as a LineStorage Object. This LineStorage Object is read by a Circular Shifter which creates a list of virtual shifted lines. These lines are read by an Alphabetizer which virtually sorts them in a specific alphabetical order (a\&lt;A\&lt;b\&lt;B\&lt;…\&lt;y\&lt;Y\&lt;z\&lt;Z). These lines are stored in the database.
 
@@ -45,7 +45,7 @@ The system&#39;s &quot;Search Keywords&quot; function is the main function of th
 
 **Design Specification (Class Diagram):**
 
-![](RackMultipart20220429-1-6el9gh_html_5fd79d7a17f829f4.png)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled5.png)
 
 # **User Manual**
 
@@ -61,19 +61,19 @@ To achieve Three-Tiered architecture, we used Apache Tomcat version 8.5 as our A
 
 When the user navigates to the webpage, they are greeted with empty boxes and a prompt to search.
 
-![Picture 6](RackMultipart20220429-1-6el9gh_html_3633b41784c03cc9.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled6.png)
 
 The database has been prepopulated (by using our application) with test data provided by the instructor. Here is what the table currently looks like. We will discuss the flow of data and how we populated the database when we reach the database section.
 
-![Picture 7](RackMultipart20220429-1-6el9gh_html_94e7bb959f406214.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled7.png)
 
 By entering keywords and pressing &quot;Submit&quot;, the keywords are cross-referenced with alphabetically sorted circularly shifted set of lines to find a match. The indices of the data are noted and used to map shifted-alphabetized descriptions to the original description and url pairs. The Microminer performs this cross-referencing and builds the roadmap back to the original lines.
 
-![Picture 8](RackMultipart20220429-1-6el9gh_html_71eb7c21add4f022.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled8.png)
 
 The &quot;Submit&quot; sends a request to the same page with the parameters grabbed by from the search textbox and begins the process of shifting-alphabetizing. If the user enters a keyword that would produce no results, the program can check for that by looking at the size of the index list. Hence if the index list is empty, then no results were found.
 
-![Picture 9](RackMultipart20220429-1-6el9gh_html_581a44499ab40e43.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled9.png)
 
 The &quot;Clear&quot; button reloads the webpage and wipes the parameters from the url. Naturally at the end of the search process, several lists are cleared of their data so that subsequent searches can be done.
 
@@ -81,28 +81,28 @@ The &quot;Clear&quot; button reloads the webpage and wipes the parameters from t
 
 When a user goes to the admin page, they are greeted to a textbox prompting them to enter description and url pairs.
 
-![Picture 10](RackMultipart20220429-1-6el9gh_html_9158627bf4dc4d27.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled10.png)
 
 When the user enters input in the form of: DESCRIPTION URL and presses &quot;Submit&quot;, the textbox text is parsed from a single large string to DLine objects for every newline in the large string. Once parsing is complete a POST request is sent to the MySQL database for later use in the Search Side of Things. Lets show data actually being stored.
 
-![Picture 11](RackMultipart20220429-1-6el9gh_html_293574d039992732.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled11.png)
 
 Next, we can hit submit and check the response!
 
-![Picture 12](RackMultipart20220429-1-6el9gh_html_78945a5083dd40c8.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled12.png)
 
 As you can see, Update.java was used to post the data to the MySQL database. Lets take a look at the table!
 
-![Picture 13](RackMultipart20220429-1-6el9gh_html_b726e39fff947e78.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled13.png)
 
 The database has been updated! To test the new description and url pairs, lets enter a few searches back on the search page.
 
-![Picture 14](RackMultipart20220429-1-6el9gh_html_637afcbaec8f0bf7.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled14.png)
 
 And another…
 
-![Picture 15](RackMultipart20220429-1-6el9gh_html_121e32208b0c0ce2.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled15.png)
 
 Finally, we can clear the page as we always have done before a new search.
 
-![Picture 16](RackMultipart20220429-1-6el9gh_html_ee2e4da2c9914a03.gif)
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled16.png)
