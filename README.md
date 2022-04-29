@@ -6,7 +6,7 @@ Chad Marshall
 
 **Process Architecture (Division of Work)**
 
-UNTITLED
+![Screenshot](https://github.com/LordFreezer/KWIC-Web-App-With-MySQL-On-Tomcat/blob/ASSETS/Untitled.png)
 
 In terms of how work was divided between teammates, it was mostly a matter of which tasks required the most attention at the time and who was first available to start working on them. In terms of design process and communication, teammates immediately worked on refactoring the previously designed Shared Data architecture to meet the specified requirements. Teammates would send written updates to each other before making changes that would affect other components, and if an in-depth explanation over any topic was required, teammates would hold a meeting whenever both were available.
 
