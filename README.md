@@ -6,31 +6,7 @@ Chad Marshall
 
 **Process Architecture (Division of Work)**
 
-| **Stephen Key** | **Chad Marshal** |
-| --- | --- |
-| Coding Components
-- ILineSet
-- LineStorage
-- Line
-- Word
-- Alphabetizer
-- CircularShifter
-Collaboration on Components
-- MicroMiner
-
- | Coding Components
-- Input
-- Output
-- ButtonEventHandler
-- Master Control
-Collaboration on Components
-- MicroMiner
-
-
- |
-| Designing the System&#39;s diagrams | Connecting components into a fully functional system |
-|
- | Selecting and integrating a server for the system to use |
+UNTITLED
 
 In terms of how work was divided between teammates, it was mostly a matter of which tasks required the most attention at the time and who was first available to start working on them. In terms of design process and communication, teammates immediately worked on refactoring the previously designed Shared Data architecture to meet the specified requirements. Teammates would send written updates to each other before making changes that would affect other components, and if an in-depth explanation over any topic was required, teammates would hold a meeting whenever both were available.
 
@@ -38,23 +14,21 @@ In terms of how work was divided between teammates, it was mostly a matter of wh
 
 Use case diagram
 
-![](RackMultipart20220429-1-6el9gh_html_9ba62728120b8e5f.png)
+![](UNTITLED1)
 
 A system admin has permission to write to the system&#39;s data to add lines. An outside client may only search the current data set for certain keywords.
 
 Sequence Diagrams
 
-![](RackMultipart20220429-1-6el9gh_html_aabe60e898dd7517.png)
+![](UNTITLED2)
 
-![](RackMultipart20220429-1-6el9gh_html_e3e1b6ba7eaefc3e.png)
-
-![](RackMultipart20220429-1-6el9gh_html_daba95f5f776bfc4.png)
+![](UNTITLED3)
 
 The system&#39;s use as a web service makes it portable, easily understandable, and user friendly.
 
 **Architecture Specification (Component Diagram):**
 
-![](RackMultipart20220429-1-6el9gh_html_236dcc199db6a4a2.png)
+![](UNTITLED4)
 
 The system&#39;s &quot;Circulate Input&quot; function uses the Shared Data Architectural style. The user interface takes in a String input and passes it to the Input component which stores the input as a LineStorage Object. This LineStorage Object is read by a Circular Shifter which creates a list of virtual shifted lines. These lines are read by an Alphabetizer which virtually sorts them in a specific alphabetical order (a\&lt;A\&lt;b\&lt;B\&lt;…\&lt;y\&lt;Y\&lt;z\&lt;Z). These lines are stored in the database.
 
